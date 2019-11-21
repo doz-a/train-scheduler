@@ -3,24 +3,18 @@
 // Initialize Firebase
 // Make sure that your configuration matches your firebase script version
 // (Ex. 3.0 != 3.7.1)
-
-// Your web app's Firebase configuration
-var firebaseConfig = {
+var config = {
     apiKey: "AIzaSyC5kccnMrv77Ob-RHaNn7R5WeDzaNSYwXw",
     authDomain: "train-scheduler-468bc.firebaseapp.com",
     databaseURL: "https://train-scheduler-468bc.firebaseio.com",
-    projectId: "train-scheduler-468bc",
     storageBucket: "train-scheduler-468bc.appspot.com",
-    messagingSenderId: "259733638640",
-    appId: "1:259733638640:web:4448610fe473da8b2ca135",
-    measurementId: "G-EG2QD9CMED"
+    messagingSenderId: "259733638640"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+firebase.initializeApp(config);
 
-// Start Firebase Connection Testing 
+// Create a variable to reference the database
+var database = firebase.database();
 
 // Use the below initialValue
 var initialValue = 10;
@@ -97,5 +91,3 @@ $("#restart-button").on("click", function () {
 
 
 });
-
-// End Firebase Connection Test 
