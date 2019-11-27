@@ -20,7 +20,9 @@ $('#add-train-btn').on('click', function (event) {
     // User input for trains 
     var trainName = $('#train-name-input').val().trim();
     var destination = $('#destination-input').val().trim();
-    var arrival = $('#first-time-input').val().trim();
+    // var arrival = $('#first-time-input').val().trim();
+    var arrival = moment($('#first-time-input').val().trim(), "HHmm").format("X");
+    // console.log("arrival input captured:" + arrival);
     var frequency = $('#frequency-input').val().trim();
 
     // Testing input 
@@ -59,56 +61,67 @@ database.ref().on("child_added", function (childSnapshot) {
     var arrival = childSnapshot.val().arrivalX;
     var frequency = childSnapshot.val().frequencyX;
 
-    // Train info
+    // Train info console logs
     // console.log(trainName);
     // console.log(destination);
     // console.log(arrival);
     // console.log(frequency);
 
+    // Prettify arrival time using moment.unix in military time
+    var arrivalPretty = moment.unix(arrival).format("HHmm");
+    console.log("arrivalPretty: ", + arrivalPretty);
+
     // Start Train Time Calculations 
     // Assumptions (in minutes)
-    // var is frequency 
-    var tFrequency = 3;
+    // variable is frequency 
+    var tFrequency = frequency;
+    // var tFrequency = 3;
+    console.log(tFrequency + "t-frequency");
 
     // // Time is 3:30 AM
-    // var is arrival 
-    var firstTime = "03:30";
+    // variable is arrival 
+    var firstTime = arrivalPretty;
+    // var firstTime = "08:30";
+    console.log(firstTime + "firstTime");
 
     // // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTime, "HHmm").subtract(1, "years");
-    console.log(firstTimeConverted);
+    console.log('first time converted: ', + firstTimeConverted);
 
-    // // Gets the current time in MILITARY time
+    // // Gets the current time, need to convert to MILITARY time
     var currentTime = moment();
     console.log("CURRENT TIME: " + moment(currentTime).format("HHmm"));
 
     // // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
+    // console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // // Time apart (remainder)
     var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
+    console.log("remainder: ", + tRemainder);
 
     // // Minute Until Train
     var tMinutesTillTrain = tFrequency - tRemainder;
     console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
     // // Next Train
-    // var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("---------------------ARRIVAL TIME (military time): " + moment(nextTrain).format("HHmm"));
 
     // End train time calculations 
 
     // Create the new row in the train schedule table
-    // Train Name, Destination, First train TimeRanges, frequency, minutes away (calculated)
+    // Train Name, Destination, First train Time, frequency, minutes away (calculated), next train time (calculated)
 
     var newRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(destination),
-        $("<td>").text(arrival),
+        $("<td>").text(arrivalPretty),
         $("<td>").text(frequency),
-        $("<td>").text("placeholder for time calculation")
+        $("<td>").text(tMinutesTillTrain),
+        $("<td>").text(moment(nextTrain).format("HHmm"))
+        // Add button here for deleting a row 
+
     );
 
     // Append the row to the table
