@@ -19,13 +19,27 @@ $('#add-train-btn').on('click', function (event) {
 
     // User input for trains 
     var trainName = $('#train-name-input').val().trim();
-    console.log(trainName + ' input');
     var destination = $('#destination-input').val().trim();
-    console.log(destination + ' input');
     var arrival = $('#first-time-input').val().trim();
-    console.log(arrival + ' input');
     var frequency = $('#frequency-input').val().trim();
-    console.log(frequency + ' input');
+
+    // Testing input 
+    // console.log(trainName + ' input');
+    // console.log(destination + ' input');
+    // console.log(arrival + ' input');
+    // console.log(frequency + ' input');
+
+    // Local object to push new train to firebase
+    var newTrain = {
+        trainNameX: trainName,
+        destinationX: destination,
+        arrivalX: arrival,
+        frequencyX: frequency
+    }
+
+    // New train object gets uploaded to database 
+    database.ref().push(newTrain);
+    console.log("new train successfully uploaded to database");
 
 });
 
