@@ -41,6 +41,12 @@ $('#add-train-btn').on('click', function (event) {
     database.ref().push(newTrain);
     console.log("new train successfully uploaded to database");
 
+    // Clears text boxes to add more trains 
+    $('#train-name-input').val('');
+    $('#destination-input').val('');
+    $('#first-time-input').val('');
+    $('#frequency-input').val('');
+
 });
 
 // Firebase event for adding trains to the database 
@@ -48,10 +54,10 @@ database.ref().on("child_added", function (childSnapshot) {
     console.log(childSnapshot.val());
 
     // Store everything into a variable.
-    var trainName = childSnapshot.val().name;
-    var destination = childSnapshot.val().destination;
-    var arrival = childSnapshot.val().arrival;
-    var frequency = childSnapshot.val().frequency;
+    var trainName = childSnapshot.val().trainNameX;
+    var destination = childSnapshot.val().destinationX;
+    var arrival = childSnapshot.val().arrivalX;
+    var frequency = childSnapshot.val().frequencyX;
 
     // Train info
     console.log(trainName);
@@ -91,5 +97,19 @@ database.ref().on("child_added", function (childSnapshot) {
     // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
     // End train time calculations 
+
+    // Create the new row in the train schedule table
+    // Train Name, Destination, First train TimeRanges, frequency, minutes away 
+
+    var newRow = $("<tr>").append(
+        $("<td>").text(trainName),
+        $("<td>").text(destination),
+        $("<td>").text(arrival),
+        $("<td>").text(frequency),
+        $("<td>").text("placeholder for time calculation")
+    );
+
+    // Append the new row to the table
+    $("#train-table > tbody").append(newRow);
 
 });
