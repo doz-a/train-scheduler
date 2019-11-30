@@ -1,0 +1,23 @@
+body {
+    background-image: url(../images/canyon2.jpg);
+    background-size: cover;
+    display: flex;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    background-color: rgba(230, 230, 230, 0.7);
+    padding: 30px;
+}
+
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.card {
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0);
+}
